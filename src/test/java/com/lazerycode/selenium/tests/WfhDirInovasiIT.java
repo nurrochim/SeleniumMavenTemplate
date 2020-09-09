@@ -25,11 +25,11 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-//    	if (currentHour < 7 ) {
+    	if (currentHour < 7 ) {
     		wfhService.setPesanDisclaimer(true);
-//    	}
+    	}
     	
-//    	wfhService.wfhHistory(wfhService.getPersonsName1());
+    	wfhService.wfhHistory(wfhService.getPersonsName1());
     	wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
     	
     	driver.close();
