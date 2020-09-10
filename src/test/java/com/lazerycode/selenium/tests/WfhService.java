@@ -41,6 +41,7 @@ public class WfhService {
 	Boolean pesanDisclaimer = false;
 	Boolean pesanWfhWfoDinas = true;
 	Boolean isClearCiCo = false;
+	Boolean sendMsgSucces = false;
 	
     private ExpectedCondition<Boolean> pageTitleStartsWith(final String searchString) {
         return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
@@ -123,30 +124,69 @@ public class WfhService {
     public void wfhHistorySendToWhatsapp(String groupName) throws Exception {
     	pesanWhatsappCompile();
     	
+    	int count = 0;
+    	int maxTries = 3;
+    	while(true) {
+    	    try {
+    	    	System.out.println(count+" try to remote whatsapp");
+    	        remoteWhatsapp();
+    	        if(sendMsgSucces) {
+    	        	break;
+    	        }
+    	    } catch (Exception e) {
+    	        if (++count == maxTries) throw e;
+    	    }
+    	}
+    	
+    }
+    
+    public void remoteWhatsapp() throws Exception{
+    	// open whatsapp
     	driver.get("https://web.whatsapp.com/");
-    	WebDriverWait wait = new WebDriverWait(driver, 60);
-
+    	Thread.sleep(10000);
+    	
+    	// find side panel chat
+    	WebDriverWait wait = new WebDriverWait(driver, 15);
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]")));
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"side\"]/span/div/div/div[2]/div[1]")));
-    	Thread.sleep(10000);
-    	WebElement search = driver.findElement(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]"));
-    	search.sendKeys(findByChatByGroupName);
     	
-//    	Thread.sleep(5000);
-    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pane-side\"]/div[1]/div/div")));
-    	WebElement tableChat = driver.findElement(By.xpath("//*[@id=\"pane-side\"]/div[1]/div/div"));
-    	List<WebElement> rows = tableChat.findElements(By.tagName("div"));
+    	// search chat by findByChatByGroupName
+    	int count = 0;
+    	int maxTries = 3;
+    	String title = "";
+    	while(true) {
+    	    try {
+    	    	System.out.println("     "+count+" try search chat ");
+    	    	title = "";
+    	    	WebElement search = driver.findElement(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]"));
+    	    	search.sendKeys(findByChatByGroupName);
+    	    	
+    	    	Thread.sleep(3000);
+    	    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"pane-side\"]/div[1]/div/div")));
+    	    	WebElement tableChat = driver.findElement(By.xpath("//*[@id=\"pane-side\"]/div[1]/div/div"));
+    	    	List<WebElement> rows = tableChat.findElements(By.tagName("div"));
+    	    	
+    	    	WebElement firstResult = rows.get(1);
+    	    	firstResult.click();
+    	    	
+    	    	// Validate Title
+    	    	Thread.sleep(5000);
+    	    	WebElement titleChatGroup = driver.findElement(By.xpath("//*[@id=\"main\"]/header/div[2]/div[1]/div/span"));
+    	    	title = titleChatGroup.getText();
+    	    	System.out.println("ChatGroup = "+ title);
+    	    	if(!title.equals(findByChatByGroupName)) {
+    	    		throw new Exception();
+    	    	}
+    	    	
+    	    	if(title.equals(findByChatByGroupName)) {
+    	    		break;
+    	    	}
+    	    } catch (Exception e) {
+    	        if (++count == maxTries) throw e;
+    	    }
+    	}
     	
-    	WebElement firstResult = rows.get(1);
-    	firstResult.click();
-    	
-    	// Validate Title
-    	//wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\\\"main\\\"]/header/div[2]/div[1]/div/span")));
-    	Thread.sleep(5000);
-    	WebElement titleChatGroup = driver.findElement(By.xpath("//*[@id=\"main\"]/header/div[2]/div[1]/div/span"));
-    	String title = titleChatGroup.getText();
-    	System.out.println(title);
-    	if(title.equals(findByChatByGroupName)) { 
+    	if(title.equals(findByChatByGroupName)) {
     		// Input Message
 	    	WebElement textMsg = driver.findElement(By.xpath("//*[@id=\"main\"]/footer/div[1]/div[2]/div/div[2]"));
 	    	
@@ -159,9 +199,10 @@ public class WfhService {
 	    	textMsg.sendKeys(pesanWhatsapp);
 	    	textMsg.sendKeys(Keys.ENTER);
 	    	
-	    	Thread.sleep(5000);
+	    	
     	}
-    	//driver.quit();
+    	Thread.sleep(5000);
+	    sendMsgSucces = true;
     }
     
     public void pesanWhatsappCompile () {

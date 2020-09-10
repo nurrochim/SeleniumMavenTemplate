@@ -13,7 +13,7 @@ public class WfhCpnsIT extends DriverBase2 {
     	WebDriver driver = getDriver();
     	WfhService wfhService = new WfhService();
     	wfhService.setDriver(driver);
-//    	wfhService.setPesanDisclaimer(false);
+    	wfhService.setPesanDisclaimer(false);
 //    	wfhService.setPesanWfhWfoDinas(false);
     	
     	// group cpns
