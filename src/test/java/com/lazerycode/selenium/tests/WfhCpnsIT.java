@@ -17,7 +17,7 @@ public class WfhCpnsIT extends DriverBase2 {
 //    	wfhService.setPesanWfhWfoDinas(false);
     	
     	// group cpns
-    	wfhService.setFindByChatByGroupName("PAPI 2018");
+//    	wfhService.setFindByChatByGroupName("PAPI 2018");
     	Calendar cal = Calendar.getInstance();
     	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
     	System.out.println(cal.getTime()+" /n "+ currentHour);
@@ -28,10 +28,10 @@ public class WfhCpnsIT extends DriverBase2 {
     	}
 //    	wfhService.setKey("Checkout");// test only
     	
-    	wfhService.wfhHistory(wfhService.getPersonsName2());
-    	if(!wfhService.getIsClearCiCo()) {
+//    	wfhService.wfhHistory(wfhService.getPersonsName2());
+//    	if(!wfhService.getIsClearCiCo()) {
     		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
-    	}
+//    	}
     	
     	driver.close();
     }

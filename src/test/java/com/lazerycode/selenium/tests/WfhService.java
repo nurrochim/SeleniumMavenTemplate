@@ -124,10 +124,11 @@ public class WfhService {
     	pesanWhatsappCompile();
     	
     	driver.get("https://web.whatsapp.com/");
-    	WebDriverWait wait = new WebDriverWait(driver, 30);
+    	WebDriverWait wait = new WebDriverWait(driver, 60);
 
     	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]")));
-    	
+    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"side\"]/span/div/div/div[2]/div[1]")));
+    	Thread.sleep(10000);
     	WebElement search = driver.findElement(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]"));
     	search.sendKeys(findByChatByGroupName);
     	
@@ -213,7 +214,7 @@ public class WfhService {
     	String pesanDisclaimer = 	pesanHeader
     								+ "Assalamu'alaikum wr wb\n\n" 
     								+ "Yth. Bapak Ibu teman²\n"
-    								+ "Mohon izin kepada Pak Santosa, Ibu Yunis, Pak Aldi dan teman² sekalian. Mohon izin untuk menggunakan aplikasi #PesanOtomatis "
+    								+ "Mohon izin kepada Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua. Mohon izin untuk menggunakan aplikasi #PesanOtomatis "
     								+ "yg saya kembangkan untuk melakukan compile data CI/CO teman² kemudian mengirimkannya ke group ini secara berkala"
     								+ Keys.chord(Keys.ENTER)
     								+ "\n \nHarapannya aplikasi ini dapat membantu mempermudah teman² dalam merekap absensi, "
@@ -227,7 +228,8 @@ public class WfhService {
 									+ "\nCI = 6:10, 7:15, 8:15, 9:10"
 									+ "\nCO = 16:00, 18:00, 20:00, 22:00"
 									+ "\n \nKritik dan saran yg membangung selalu terbuka, agar dapat mengembangkan inovasi² baru yg bermanfaat."
-									+ "\nTerimakasih"
+									+ "\n \nSemoga bisa menjadi solusi yg membantu." 
+									+ "\nSalam hormat dan terimakasih"
 									;
     	return pesanDisclaimer;
     }

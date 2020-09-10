@@ -16,7 +16,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
 //    	wfhService.setPesanWfhWfoDinas(false);
     	
     	// group Direktorat Inovasi
-//    	wfhService.setFindByChatByGroupName("Inovasi Industri");
+    	wfhService.setFindByChatByGroupName("Inovasi Industri");
     	Calendar cal = Calendar.getInstance();
     	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
     	System.out.println(cal.getTime()+" /n "+ currentHour);
@@ -25,9 +25,9 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-    	if (currentHour < 7 ) {
+    	//if (currentHour == 7 ) {
     		wfhService.setPesanDisclaimer(true);
-    	}
+    	//}
     	
     	wfhService.wfhHistory(wfhService.getPersonsName1());
     	wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
