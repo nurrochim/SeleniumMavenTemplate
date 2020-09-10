@@ -173,7 +173,7 @@ public class WfhService {
     	    	// Validate Title
     	    	Thread.sleep(5000);
     	    	WebElement titleChatGroup = driver.findElement(By.xpath("//*[@id=\"main\"]/header/div[2]/div[1]/div/span"));
-    	    	title = titleChatGroup.getText()+"tst";
+    	    	title = titleChatGroup.getText();
     	    	System.out.println("ChatGroup = "+ title);
     	    	if(!title.equals(findByChatByGroupName)) {
     	    		throw new Exception();
