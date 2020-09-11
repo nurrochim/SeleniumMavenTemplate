@@ -237,7 +237,10 @@ public class WfhService {
     	}
     	
     	if(listHistory.contains("Belum "+key)) {
-    		pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_"+Keys.chord(Keys.ENTER)+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
+    		if(!pesanWhatsapp.isEmpty()) {
+    			pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_"+Keys.chord(Keys.ENTER);
+    		}
+    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
     		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 //    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
 		}
@@ -256,7 +259,7 @@ public class WfhService {
     	String pesanDisclaimer = 	pesanHeader
     								+ "Assalamu'alaikum wr wb\n\n" 
     								+ "Yth. Bapak Ibu teman²\n"
-    								+ "Mohon izin kepada Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua. Mohon izin untuk menggunakan aplikasi #PesanOtomatis "
+    								+ "Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua.\n \nRohim mohon izin untuk menggunakan aplikasi #PesanOtomatis "
     								+ "yg saya kembangkan untuk melakukan compile data CI/CO teman² kemudian mengirimkannya ke group ini secara berkala"
     								+ Keys.chord(Keys.ENTER)
     								+ "\n \nHarapannya aplikasi ini dapat membantu mempermudah teman² dalam merekap absensi, "
