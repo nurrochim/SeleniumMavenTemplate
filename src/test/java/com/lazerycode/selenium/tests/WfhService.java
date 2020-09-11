@@ -268,8 +268,8 @@ public class WfhService {
 									+ "\n \nSelanjutnya dengan tagar _#PesanOtomatis_ menjadi tanda bahwa yg mengirim pesan adalah service/program komputer *bukan* orang"
 									+ "\n \n*Jadwal* _#PesanOtomatis_ :"
 									+ "\nCI = 6:10, 7:15, 8:15, 9:10"
-									+ "\nCO = 16:00, 18:00, 20:00, 22:00"
-									+ "\n \nKritik dan saran yg membangung selalu terbuka, agar dapat mengembangkan inovasi² baru yg bermanfaat."
+									+ "\nCO = 16:05,17:05, 18:05, 20:05"
+									+ "\n \nKritik dan saran yg membangun diperlukan, agar dpt mengembangkan inovasi² baru yg bermanfaat."
 									+ "\n \nSemoga bisa menjadi solusi yg membantu." 
 									+ "\nSalam hormat dan terimakasih"
 									;

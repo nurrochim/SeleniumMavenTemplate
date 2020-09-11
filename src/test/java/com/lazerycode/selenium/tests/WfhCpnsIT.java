@@ -10,17 +10,20 @@ import com.lazerycode.selenium.DriverBase2;
 public class WfhCpnsIT extends DriverBase2 {
 	@Test
     public void runRemote() throws Exception{
-    	WebDriver driver = getDriver();
+		Calendar cal = Calendar.getInstance();
+    	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+    	
+		WebDriver driver = getDriver();
     	WfhService wfhService = new WfhService();
     	wfhService.setDriver(driver);
 //    	wfhService.setPesanDisclaimer(false);
-//    	wfhService.setPesanWfhWfoDinas(false);
-    	
+    	if (currentHour < 20) {
+    		wfhService.setPesanWfhWfoDinas(false);
+    	}
     	// group cpns
     	wfhService.setFindByChatByGroupName("PAPI 2018");
-    	Calendar cal = Calendar.getInstance();
-    	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
-    	System.out.println(cal.getTime()+" /n "+ currentHour);
+    	
+    	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
     	if (currentHour < 12) {
     		wfhService.setKey("Checkin");
     	}else {
