@@ -25,7 +25,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-    	if (currentHour == 6 ) {
+    	if (currentHour == 7 ) {
     		wfhService.setPesanDisclaimer(true);
     	}
     	
