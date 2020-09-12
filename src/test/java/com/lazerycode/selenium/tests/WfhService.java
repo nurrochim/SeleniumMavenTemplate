@@ -26,7 +26,7 @@ public class WfhService {
 								"Yenni Kusumawati","Aditya Randika","Raditya Dananjaya","Agus Prihartono","Cornelia Tantri W","Amir Faisal Manurung","Alwis",
 								"Erlani Pusparini","Dicky Kurniawan","Noor Indriasari","Sri Utami, S.Sos","Yulmedianti Karlina Nancy","Anteng Setia Ningsih",
 								"Ulfi Perdanawati","Rahmatika Jihad","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi","Fitri Ramadhani A",
-								"Radiwan, SE","Nurochim","Bambang Herlambang","Iskandar, S.Si","Edi Sumedi","Teddy Adhitya","Nila Juwita"};//,"Nila Juwita" 
+								"Radiwan, SE","Nurochim","Bambang Herlambang","Iskandar, S.Si","Edi Sumedi","Teddy Adhitya"};//,"Nila Juwita" 
 	
 	String[] personsName2 = {"Sarah Fairuz", "Ninik Puji Astuti","Yunida Hary Wardany", "Gracia Krisantiana Agustin","Regina Putri", "Oktarina Elik",
 							"Lita Foresti","Mega Fatimah","Shintya Asih Angelita","Uci Sri Sundari",
@@ -224,6 +224,7 @@ public class WfhService {
     		mapHistory.put(mapKey, personsWithNumber);
     	}
     	
+
     	if(pesanWfhWfoDinas) {
 	    	for (String mapKey : listHistory) {
 //	    		System.out.println(mapKey);
@@ -236,7 +237,6 @@ public class WfhService {
 	    	    }
 	    	}
     	
-    	
 	    	if(pesanWhatsapp.isEmpty()) {
 	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n(Belum ada data)";
 	    	}
@@ -247,7 +247,7 @@ public class WfhService {
     	
     	if(pesanBelumCiCo) {
 	    	if(listHistory.contains("Belum "+key)) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
+	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
 			}
