@@ -40,7 +40,6 @@ public class WfhService {
 	SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMM yyyy", new Locale("id", "ID"));
 	Boolean pesanDisclaimer = false;
 	Boolean pesanWfhWfoDinas = true;
-	Boolean pesanBelumCiCo = true;
 	Boolean isClearCiCo = false;
 	Boolean sendMsgSucces = false;
 	
@@ -235,26 +234,18 @@ public class WfhService {
 	    	    	pesanWhatsapp = pesanWhatsapp+"*"+mapKey+"* \n"+mapHistory.get(mapKey)+" \n";
 	    	    }
 	    	}
-    	
-    	
-	    	if(pesanWhatsapp.isEmpty()) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n(Belum ada data)";
-	    	}
-	    	if(!pesanWhatsapp.isEmpty()) {
-				pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_"+Keys.chord(Keys.ENTER);
-			}
     	}
     	
-    	if(pesanBelumCiCo) {
-	    	if(listHistory.contains("Belum "+key)) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
-	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
-	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
-			}
-	    	
-	    	pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
-    	}
-    	
+    	if(listHistory.contains("Belum "+key)) {
+    		if(!pesanWhatsapp.isEmpty()) {
+    			pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_"+Keys.chord(Keys.ENTER);
+    		}
+    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
+    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
+//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
+		}
+//    	pesanWhatsapp = "Test aja \n test";
+    	pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
     	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
     	
     	// overide pesan, jika yg belum CO sudah habis
@@ -268,7 +259,7 @@ public class WfhService {
     	String pesanDisclaimer = 	pesanHeader
     								+ "Assalamu'alaikum wr wb\n\n" 
     								+ "Yth. Bapak Ibu teman²\n"
-    								+ "Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua.\n \nRohim mohon izin untuk menggunakan aplikasi #PesanOtomatis "
+    								+ "Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua. Saya(Rohim) mohon izin untuk menggunakan aplikasi #PesanOtomatis "
     								+ "yg saya kembangkan untuk melakukan compile data CI/CO teman² kemudian mengirimkannya ke group ini secara berkala"
     								+ Keys.chord(Keys.ENTER)
     								+ "\n \nHarapannya aplikasi ini dapat membantu mempermudah teman² dalam merekap absensi, "
@@ -366,14 +357,6 @@ public class WfhService {
 
 	public void setIsClearCiCo(Boolean isClearCiCo) {
 		this.isClearCiCo = isClearCiCo;
-	}
-
-	public Boolean getPesanBelumCiCo() {
-		return pesanBelumCiCo;
-	}
-
-	public void setPesanBelumCiCo(Boolean pesanBelumCiCo) {
-		this.pesanBelumCiCo = pesanBelumCiCo;
 	}
 
 	
