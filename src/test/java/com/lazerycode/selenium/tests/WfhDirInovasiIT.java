@@ -32,7 +32,8 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-    	if (currentHour == 6 && dateNow.equals("14/09/2020")) {
+    	//if (currentHour == 6 && dateNow.equals("14/09/2020")) {
+		if (currentHour == 6) {
     		wfhService.setPesanDisclaimer(true);
     	}
     	
