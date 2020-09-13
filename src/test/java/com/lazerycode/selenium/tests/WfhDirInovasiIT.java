@@ -24,7 +24,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	wfhService.setDriver(driver);
     	
     	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
-    	if ((currentHour > 9 && currentHour < 12) || (currentHour > 19)) {
+    	if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
     		wfhService.setPesanWfhWfoDinas(false);
     		wfhService.setPesanBelumCiCo(true);
