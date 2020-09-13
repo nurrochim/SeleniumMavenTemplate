@@ -52,3 +52,4 @@ target
 **/selenium_standalone_binaries/
 **/data/*
 data
+*.bak
