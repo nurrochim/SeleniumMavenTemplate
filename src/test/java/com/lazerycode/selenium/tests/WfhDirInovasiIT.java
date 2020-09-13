@@ -15,14 +15,15 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	String dateNow = sdf.format(cal.getTime());
-    	// group Direktorat Inovasi
-    	wfhService.setFindByChatByGroupName("Inovasi Industri");
+    	
 
     	
 		WebDriver driver = getDriver();
     	WfhService wfhService = new WfhService();
     	wfhService.setDriver(driver);
     	
+    	// group Direktorat Inovasi
+    	wfhService.setFindByChatByGroupName("Inovasi Industri");
     	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
     	if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
@@ -41,16 +42,19 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-    	if (currentHour == 5 && dateNow.equals("14/09/2020")) {
-		//if (currentHour == 5) {
-    		wfhService.setPesanDisclaimer(true);
-    		wfhService.setPesanWfhWfoDinas(false);
-    		wfhService.setPesanBelumCiCo(false);
-    	}
+//    	if (currentHour == 5 && dateNow.equals("14/09/2020")) {
+//		//if (currentHour == 5) {
+//    		wfhService.setPesanDisclaimer(true);
+//    		wfhService.setPesanWfhWfoDinas(false);
+//    		wfhService.setPesanBelumCiCo(false);
+//    	}
     	
+    	if (currentHour != 5) {
+    		wfhService.setPesanDisclaimer(true);
     	wfhService.wfhHistory(wfhService.getPersonsName1());
     	if(!wfhService.getIsClearCiCo()) {
     		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
+    	}
     	}
     	driver.close();
     }
