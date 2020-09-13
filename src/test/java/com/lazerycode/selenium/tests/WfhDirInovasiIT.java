@@ -16,7 +16,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	String dateNow = sdf.format(cal.getTime());
     	// group Direktorat Inovasi
-//    	wfhService.setFindByChatByGroupName("Inovasi Industri");
+    	wfhService.setFindByChatByGroupName("Inovasi Industri");
 
     	
 		WebDriver driver = getDriver();
@@ -41,8 +41,8 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-    	//if (currentHour == 5 && dateNow.equals("14/09/2020")) {
-		if (currentHour == 5) {
+    	if (currentHour == 5 && dateNow.equals("14/09/2020")) {
+		//if (currentHour == 5) {
     		wfhService.setPesanDisclaimer(true);
     		wfhService.setPesanWfhWfoDinas(false);
     		wfhService.setPesanBelumCiCo(false);

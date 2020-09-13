@@ -21,7 +21,7 @@ public class WfhCpnsIT extends DriverBase2 {
     		wfhService.setPesanWfhWfoDinas(false);
     	}
     	// group cpns
-    	//wfhService.setFindByChatByGroupName("PAPI 2018");
+    	wfhService.setFindByChatByGroupName("PAPI 2018");
     	
     	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
     	if (currentHour < 12) {

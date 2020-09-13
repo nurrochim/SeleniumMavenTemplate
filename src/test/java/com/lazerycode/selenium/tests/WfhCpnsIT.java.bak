@@ -17,7 +17,7 @@ public class WfhCpnsIT extends DriverBase2 {
     	WfhService wfhService = new WfhService();
     	wfhService.setDriver(driver);
 //    	wfhService.setPesanDisclaimer(false);
-    	if (currentHour > 20 || (currentHour > 7 && currentHour < 12)) {
+    	if (currentHour > 20 || (currentHour > 8 && currentHour < 12)) {
     		wfhService.setPesanWfhWfoDinas(false);
     	}
     	// group cpns
