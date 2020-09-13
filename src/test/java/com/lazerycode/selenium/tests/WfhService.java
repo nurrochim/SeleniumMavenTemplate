@@ -279,7 +279,7 @@ public class WfhService {
 									+ "\n \n_#PesanOtomatis_ ini masih dalam tahap Uji Coba, harap dimaklumi jika masih ada kesalahan error"
 									+ "\n \nSelanjutnya dengan tagar _#PesanOtomatis_ menjadi tanda bahwa yg mengirim pesan adalah service/program komputer *bukan* orang"
 									+ "\n \n*Jadwal* _#PesanOtomatis_ :"
-									+ "\nCI = 6:10,6:45,7:05,7:20,8:15,9:10"
+									+ "\nCI = 6:15,6:30,7:05,7:20,8:15,9:10"
 									+ "\nCO = 15:45,16:10,17:05,18:05,20:05"
 									+ "\n \nKritik dan saran yg membangun diperlukan, agar dpt mengembangkan inovasi² baru yg bermanfaat."
 									+ "\n \nSemoga bisa menjadi solusi yg membantu." 

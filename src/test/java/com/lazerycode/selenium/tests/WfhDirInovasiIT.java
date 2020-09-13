@@ -13,6 +13,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     public void runRemote() throws Exception{
 		Calendar cal = Calendar.getInstance();
     	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
+    	int currentMinute = cal.get(Calendar.MINUTE);
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     	String dateNow = sdf.format(cal.getTime());
     	
@@ -42,20 +43,19 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}else {
     		wfhService.setKey("Checkout");
     	}
-//    	if (currentHour == 5 && dateNow.equals("14/09/2020")) {
-//		//if (currentHour == 5) {
-//    		wfhService.setPesanDisclaimer(true);
+    	
+    	if (currentHour == 6 && currentMinute < 20  && dateNow.equals("14/09/2020")) {
+		//if (currentHour == 5) {
+    		wfhService.setPesanDisclaimer(true);
 //    		wfhService.setPesanWfhWfoDinas(false);
 //    		wfhService.setPesanBelumCiCo(false);
-//    	}
+    	}
     	
-    	if (currentHour != 5) {
-    		wfhService.setPesanDisclaimer(true);
     	wfhService.wfhHistory(wfhService.getPersonsName1());
     	if(!wfhService.getIsClearCiCo()) {
     		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
     	}
-    	}
+    	
     	driver.close();
     }
 }
