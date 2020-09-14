@@ -52,10 +52,9 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	}
     	
     	wfhService.wfhHistory(wfhService.getPersonsName1());
-    	if(!wfhService.getIsClearCiCo()) {
-    		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
-    	}
-    	
+		wfhService.pesanWhatsappCompile();
+		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
+		
     	driver.close();
     }
 }

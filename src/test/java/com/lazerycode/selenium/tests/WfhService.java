@@ -21,12 +21,12 @@ public class WfhService {
 	String pesanHeader = "_#PesanOtomatis_\n \nYth. \n";
 	String pesanWhatsapp = "";
 	String findByChatByGroupName = "Test Group Privateku";
-	String[] personsName1 = {"Ir. Santosa Yudo Warsono, MT","Aldi Haryadi, S.T","Drs. Erwin Sjachrial","Ir Wiwiek Joelijani, MT","Novi Mukti Rahayu, S.T., M.T.","Maryunis, S.E."
-								,"Rino, S.E","Dody Styawan","Agung Budi Raharjo","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim",
-								"Yenni Kusumawati","Aditya Randika","Raditya Dananjaya","Agus Prihartono","Cornelia Tantri W","Amir Faisal Manurung","Alwis",
-								"Erlani Pusparini","Dicky Kurniawan","Noor Indriasari","Sri Utami, S.Sos","Yulmedianti Karlina Nancy","Anteng Setia Ningsih",
+	String[] personsName1 = {"Ir. Santosa Yudo Warsono, MT","Aldi Haryadi, S.T.","Drs. Erwin Sjachrial","Ir Wiwiek Joelijani, MT","Novi Mukti Rahayu, S.T., M.T.","Maryunis, S.E."
+								,"Rino, S.E","Yenni Kusumawati","Aditya Randika","Raditya Dananjaya","Agus Prihartono","Cornelia Tantri W","Amir Faisal Manurung","Alwis",
+								"Erlani Pusparini","Dicky Kurniawan","Noor Indriasari","Sri Utami, S.Sos","Yulmedianti Karlina Nancy","Anteng Setia Ningsih, S.Tp., M.A.",
 								"Ulfi Perdanawati","Rahmatika Jihad","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi","Fitri Ramadhani A",
-								"Radiwan, SE","Nurochim","Bambang Herlambang","Iskandar, S.Si","Edi Sumedi","Teddy Adhitya"};//,"Nila Juwita" 
+								"Radiwan, SE","Nurochim","Bambang Herlambang","Iskandar, S.Si","Edi Sumedi","Teddy Adhitya",
+								"Dody Styawan","Agung Budi Raharjo","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita" 
 	
 	String[] personsName2 = {"Sarah Fairuz", "Ninik Puji Astuti","Yunida Hary Wardany", "Gracia Krisantiana Agustin","Regina Putri", "Oktarina Elik",
 							"Lita Foresti","Mega Fatimah","Shintya Asih Angelita","Uci Sri Sundari",
@@ -66,6 +66,7 @@ public class WfhService {
 	    	WebElement simpanBtn = driver.findElement(By.id("simpan"));
 	    	simpanBtn.click();
 	    	
+			Thread.sleep(3000);
 	    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table")));
 	    	WebElement tableHistory = driver.findElement(By.id("table"));
 	    	List<WebElement> rows = tableHistory.findElements(By.tagName("tr"));
@@ -111,6 +112,7 @@ public class WfhService {
 	    			mapHistory.put("Belum "+key, "#"+nameKey+"\n");
 	    		}
 	    	}
+			
     	}
     	//driver.quit();
     	List<String> listHistory = new ArrayList<String>(mapHistory.keySet());
@@ -123,8 +125,6 @@ public class WfhService {
     
     //@Test
     public void wfhHistorySendToWhatsapp(String groupName) throws Exception {
-    	pesanWhatsappCompile();
-    	
     	int count = 0;
     	int maxTries = 3;
     	while(true) {
@@ -241,7 +241,8 @@ public class WfhService {
 	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n(Belum ada data)";
 	    	}
 	    	if(!pesanWhatsapp.isEmpty()) {
-				pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_"+Keys.chord(Keys.ENTER);
+				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih dalam tahap Uji Coba, harap dimaklumi jika masih ada kesalahan error. "
+											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih"+Keys.chord(Keys.ENTER);
 			}
     	}
     	
@@ -250,9 +251,11 @@ public class WfhService {
 	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
+				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih dalam tahap Uji Coba, harap dimaklumi jika masih ada kesalahan error. "
+											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
 			}
 	    	
-	    	pesanWhatsapp = pesanWhatsapp+"\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
+	    	
     	}
     	
     	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
@@ -268,7 +271,7 @@ public class WfhService {
     	String pesanDisclaimer = 	pesanHeader
     								+ "Assalamu'alaikum wr wb\n\n" 
     								+ "Yth. Bapak Ibu teman²\n"
-    								+ "Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua.\n \nRohim mohon izin untuk menggunakan aplikasi #PesanOtomatis "
+    								+ "Pak Santosa, Ibu Yunis, Pak Aldi, Pak Radiwan dan teman² semua.\n \nRohim mohon izin untuk menggunakan aplikasi _#PesanOtomatis_ "
     								+ "yg saya kembangkan untuk melakukan compile data CI/CO teman² kemudian mengirimkannya ke group ini secara berkala"
     								+ Keys.chord(Keys.ENTER)
     								+ "\n \nHarapannya aplikasi ini dapat membantu mempermudah teman² dalam merekap absensi, "

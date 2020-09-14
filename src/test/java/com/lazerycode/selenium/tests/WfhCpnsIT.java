@@ -32,9 +32,8 @@ public class WfhCpnsIT extends DriverBase2 {
 //    	wfhService.setKey("Checkout");// test only
     	
     	wfhService.wfhHistory(wfhService.getPersonsName2());
-    	if(!wfhService.getIsClearCiCo()) {
-    		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
-    	}
+    	wfhService.pesanWhatsappCompile();
+    	wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
     	
     	driver.close();
     }
