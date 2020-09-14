@@ -1,5 +1,9 @@
 package com.lazerycode.selenium.tests;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -43,7 +48,11 @@ public class WfhService {
 	Boolean pesanBelumCiCo = true;
 	Boolean isClearCiCo = false;
 	Boolean sendMsgSucces = false;
-	
+	Integer belumCicoProp = 0;
+	Integer sudahCicoProp = 0;
+	Integer belumCicoCurrent = 0;
+	Integer sudahCicoCurrent = 0;
+		
     private ExpectedCondition<Boolean> pageTitleStartsWith(final String searchString) {
         return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
     }
@@ -222,6 +231,11 @@ public class WfhService {
 				number++;
 			}
     		mapHistory.put(mapKey, personsWithNumber);
+    		if(!mapKey.equals("Belum "+key)) {
+    			sudahCicoCurrent = sudahCicoCurrent+(number-1);
+    		}else {
+    			belumCicoCurrent = belumCicoCurrent+(number-1);
+    		}
     	}
     	
 
@@ -289,6 +303,49 @@ public class WfhService {
 									+ "\nSalam hormat dan terimakasih"
 									;
     	return pesanDisclaimer;
+    }
+    
+    public void readProperties() {
+    	try (InputStream input = testcode.class.getClassLoader().getResourceAsStream("config.properties")) {
+
+            Properties prop = new Properties();
+
+            if (input == null) {
+                System.out.println("Sorry, unable to find config.properties");
+                return;
+            }
+
+            //load a properties file from class path, inside static method
+            prop.load(input);
+
+            //get the property value and print it out
+            sudahCicoProp = Integer.valueOf(prop.getProperty("cico.sudah"));
+            belumCicoProp = Integer.valueOf(prop.getProperty("cico.belum"));
+//            Integer clearCiCoProp = 
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void writeProperties(Integer sudahCico, Integer belumCico) {
+    	String dir = System.getProperty("user.dir");
+		System.out.println(dir);
+		try (OutputStream output = new FileOutputStream(dir+"/src/test/resources/config.properties")) {
+
+            Properties prop = new Properties();
+
+            // set the properties value
+            prop.setProperty("cico.sudah", sudahCico.toString());
+            prop.setProperty("cico.belum", belumCico.toString());
+            prop.setProperty("cico.clear", "0");
+
+            // save properties to project root folder
+            prop.store(output, null);
+
+		} catch (IOException io) {
+            io.printStackTrace();
+        }
     }
 
 	public WebDriver getDriver() {
@@ -378,6 +435,40 @@ public class WfhService {
 	public void setPesanBelumCiCo(Boolean pesanBelumCiCo) {
 		this.pesanBelumCiCo = pesanBelumCiCo;
 	}
+
+	public Integer getBelumCicoProp() {
+		return belumCicoProp;
+	}
+
+	public void setBelumCicoProp(Integer belumCicoProp) {
+		this.belumCicoProp = belumCicoProp;
+	}
+
+	public Integer getSudahCicoProp() {
+		return sudahCicoProp;
+	}
+
+	public void setSudahCicoProp(Integer sudahCicoProp) {
+		this.sudahCicoProp = sudahCicoProp;
+	}
+
+	public Integer getBelumCicoCurrent() {
+		return belumCicoCurrent;
+	}
+
+	public void setBelumCicoCurrent(Integer belumCicoCurrent) {
+		this.belumCicoCurrent = belumCicoCurrent;
+	}
+
+	public Integer getSudahCicoCurrent() {
+		return sudahCicoCurrent;
+	}
+
+	public void setSudahCicoCurrent(Integer sudahCicoCurrent) {
+		this.sudahCicoCurrent = sudahCicoCurrent;
+	}
+
+	
 
 	
     
