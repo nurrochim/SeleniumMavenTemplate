@@ -16,43 +16,32 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	int currentMinute = cal.get(Calendar.MINUTE);
     	int currentDay = cal.get(Calendar.DAY_OF_WEEK);
     	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    	String dateNow = sdf.format(cal.getTime());
+//    	String dateNow = sdf.format(cal.getTime());
     	
-
-    	
-		WebDriver driver = getDriver();
     	WfhService wfhService = new WfhService();
-    	wfhService.setDriver(driver);
     	
-    	// group Direktorat Inovasi
-    	wfhService.setFindByChatByGroupName("Inovasi Industri");
     	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
-    	
-    	if (currentHour == 6 && currentMinute < 20) {
-    		wfhService.setSudahCicoProp(0);
-    		wfhService.setBelumCicoProp(0);
-    		wfhService.writeProperties(0,0);
-    	}
-    	
-    	// 6 itu jumat
-    	if(currentDay<6) {
-    		if (currentHour == 15) {
-    			wfhService.setSudahCicoProp(0);
-        		wfhService.setBelumCicoProp(0);
-        		wfhService.writeProperties(0,0);
-        	}
-    	}else {
-    		// jumat
-    		if (currentHour == 16 && currentMinute < 15) {
-    			wfhService.setSudahCicoProp(0);
-        		wfhService.setBelumCicoProp(0);
-        		wfhService.writeProperties(0,0);
-        	}
-    	}
+    	wfhService.setInitProperties(currentHour, currentMinute, currentDay);
     	
     	// readProperties
     	wfhService.readProperties();
+    	System.out.println("Sudah CO Properties = " +wfhService.getSudahCicoProp());
+		System.out.println("Belum CO Properties = " + wfhService.getBelumCicoProp());
     	
+		// Check if sudahCiCo > 0 and belumCiCo = 0 
+		// artinya system sudah jalan dan semua sudah CICO 
+		// Jadi ga perlu lagi jalankan service
+		if(wfhService.getSudahCicoProp()>0 && wfhService.getBelumCicoProp()==0) {
+			return;
+		}
+		
+		// Jam nya Checkin atau Chekout
+		if (currentHour < 12) {
+    		wfhService.setKey("Checkin");
+    	}else {
+    		wfhService.setKey("Checkout");
+    	}
+		
     	if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
     		wfhService.setPesanWfhWfoDinas(false);
@@ -64,44 +53,34 @@ public class WfhDirInovasiIT extends DriverBase2 {
     		wfhService.setPesanBelumCiCo(false);
     	}
     	
-    	
-    	if (currentHour < 12) {
-    		wfhService.setKey("Checkin");
-    	}else {
-    		wfhService.setKey("Checkout");
-    	}
-    	
-//    	if (currentHour == 6 && currentMinute < 20  && dateNow.equals("14/09/2020")) {
-		//if (currentHour == 5) {
-//    		wfhService.setPesanDisclaimer(true);
-//    		wfhService.setPesanWfhWfoDinas(false);
-//    		wfhService.setPesanBelumCiCo(false);
-//    	}
-    	
+    	WebDriver driver = getDriver();
+    	wfhService.setDriver(driver);
     	wfhService.wfhHistory(wfhService.getPersonsName1());
 		wfhService.pesanWhatsappCompile();
 		
 		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group
 		// jika tidak ada update cico, ya ga usah disampaikan ke group
-		if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
-			if(wfhService.getSudahCicoCurrent() > wfhService.getSudahCicoProp()) {
-				wfhService.setPesanWfhWfoDinas(true);
+ 		if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
+			if(wfhService.getBelumCicoCurrent() > 0 // selama masih ada yang belum CO maka tampilkan Belum CO nya 
+					&& wfhService.getBelumCicoCurrent() < wfhService.getBelumCicoProp()) // dan currentnya telah menurun atau < dari CicoProp 
+			{
 				wfhService.setPesanBelumCiCo(true);
-			} 
-			if(wfhService.getBelumCicoCurrent() == wfhService.getBelumCicoProp()) {
+			}else {
 				wfhService.setPesanBelumCiCo(false);
 			}
+			
 		}
 		
 		// save to properties
+		System.out.println("Sudah CO Actual = " +wfhService.getSudahCicoCurrent());
+		System.out.println("Belum CO Actual = " + wfhService.getBelumCicoCurrent());
 		wfhService.writeProperties(wfhService.getSudahCicoCurrent(),wfhService.getBelumCicoCurrent());
 		
-		if(!wfhService.getPesanWfhWfoDinas() && !wfhService.getPesanBelumCiCo()) {
-			driver.close();
-			return;
+		// send wea
+		if(wfhService.getPesanBelumCiCo()||wfhService.getPesanWfhWfoDinas()) {
+			wfhService.setFindByChatByGroupName("Inovasi Industri");
+			wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
 		}
-		
-		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
 		
 		driver.close();
     }

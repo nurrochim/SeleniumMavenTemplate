@@ -245,27 +245,27 @@ public class WfhService {
 	    		if(!mapKey.equals("Belum "+key)) {
 	    	    	if(pesanWhatsapp.isEmpty()) {
 	    	    		// header
-	    	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
+	    	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    	    	}
 	    	    	pesanWhatsapp = pesanWhatsapp+"*"+mapKey+"* \n"+mapHistory.get(mapKey)+" \n";
 	    	    }
 	    	}
     	
 	    	if(pesanWhatsapp.isEmpty()) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n(Belum ada data)";
+	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)";
 	    	}
 	    	if(!pesanWhatsapp.isEmpty()) {
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih dalam tahap Uji Coba, harap dimaklumi jika masih ada kesalahan error. "
+				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
 											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih"+Keys.chord(Keys.ENTER);
 			}
     	}
     	
     	if(pesanBelumCiCo) {
 	    	if(listHistory.contains("Belum "+key)) {
-	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://bit.ly/ristekbrinWFH \n \n";
+	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih dalam tahap Uji Coba, harap dimaklumi jika masih ada kesalahan error. "
+				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
 											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
 			}
 	    	
@@ -277,6 +277,7 @@ public class WfhService {
     	// overide pesan, jika yg belum CO sudah habis
     	if(!listHistory.contains("Belum "+key)) {
     		isClearCiCo = true;
+    		pesanWhatsapp = pesanWhatsapp+getClosingMsg();
     	}
     }
     
@@ -303,6 +304,10 @@ public class WfhService {
 									+ "\nSalam hormat dan terimakasih"
 									;
     	return pesanDisclaimer;
+    }
+    
+    public String getClosingMsg() {
+    	return	pesanHeader+"Terimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/";
     }
     
     public void readProperties() {
@@ -346,6 +351,33 @@ public class WfhService {
 		} catch (IOException io) {
             io.printStackTrace();
         }
+    }
+    
+    public void setInitProperties(int currentHour, int currentMinute, int currentDay) {
+    	// Jam Pagi
+    	if (currentHour == 6 && currentMinute < 20) {
+    		sudahCicoProp = 0;
+    		belumCicoProp = 0;
+    		writeProperties(0,0);
+    	}
+    	
+    	// Settingan sore 
+    	if(currentDay<6) {
+    		// untuk hari sebelum jumat (6)
+    		if (currentHour == 15) {
+    			// Jumat sore
+    			sudahCicoProp = 0;
+        		belumCicoProp = 0;
+        		writeProperties(0,0);
+        	}
+    	}else {
+    		// untuk hari jumat
+    		if (currentHour == 16 && currentMinute < 15) {
+    			sudahCicoProp = 0;
+        		belumCicoProp = 0;
+        		writeProperties(0,0);
+        	}
+    	}
     }
 
 	public WebDriver getDriver() {
