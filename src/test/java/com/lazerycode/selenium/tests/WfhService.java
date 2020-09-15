@@ -126,9 +126,9 @@ public class WfhService {
     	//driver.quit();
     	List<String> listHistory = new ArrayList<String>(mapHistory.keySet());
     	
-    	for (String mapKey : listHistory) {
-    		System.out.println(mapKey);
-    	}
+//    	for (String mapKey : listHistory) {
+//    		System.out.println(mapKey);
+//    	}
     }
     
     
@@ -184,7 +184,7 @@ public class WfhService {
     	    	Thread.sleep(5000);
     	    	WebElement titleChatGroup = driver.findElement(By.xpath("//*[@id=\"main\"]/header/div[2]/div[1]/div/span"));
     	    	title = titleChatGroup.getText();
-    	    	System.out.println("ChatGroup = "+ title);
+    	    	System.out.println("     ChatGroup = "+ title);
     	    	if(!title.equals(findByChatByGroupName)) {
     	    		throw new Exception();
     	    	}
@@ -330,7 +330,7 @@ public class WfhService {
     
     public void writeProperties(Integer sudahCico, Integer belumCico) {
     	String dir = System.getProperty("user.dir");
-		System.out.println(dir);
+//		System.out.println(dir);
 		try (OutputStream output = new FileOutputStream(dir+"/src/test/resources/config.properties")) {
 
             Properties prop = new Properties();

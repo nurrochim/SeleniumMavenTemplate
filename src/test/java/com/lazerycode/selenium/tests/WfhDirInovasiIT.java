@@ -81,6 +81,8 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	wfhService.wfhHistory(wfhService.getPersonsName1());
 		wfhService.pesanWhatsappCompile();
 		
+		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group
+		// jika tidak ada update cico, ya ga usah disampaikan ke group
 		if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
 			if(wfhService.getSudahCicoCurrent() > wfhService.getSudahCicoProp()) {
 				wfhService.setPesanWfhWfoDinas(true);
@@ -91,11 +93,16 @@ public class WfhDirInovasiIT extends DriverBase2 {
 			}
 		}
 		
-		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
-		
 		// save to properties
 		wfhService.writeProperties(wfhService.getSudahCicoCurrent(),wfhService.getBelumCicoCurrent());
 		
-    	driver.close();
+		if(!wfhService.getPesanWfhWfoDinas() && !wfhService.getPesanBelumCiCo()) {
+			driver.close();
+			return;
+		}
+		
+		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
+		
+		driver.close();
     }
 }
