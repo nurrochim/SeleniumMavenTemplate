@@ -69,7 +69,6 @@ public class WfhDirInovasiIT extends DriverBase2 {
 			}else {
 				wfhService.setPesanBelumCiCo(false);
 			}
-			
 		}
 		
 		// save to properties
@@ -78,11 +77,14 @@ public class WfhDirInovasiIT extends DriverBase2 {
 		wfhService.writeProperties(wfhService.getSudahCicoCurrent(),wfhService.getBelumCicoCurrent());
 		
 		// send wea
-		if(wfhService.getPesanBelumCiCo()||wfhService.getPesanWfhWfoDinas()) {
-			wfhService.setFindByChatByGroupName("Inovasi Industri");
+		wfhService.setFindByChatByGroupName("Inovasi Industri");
+		if(wfhService.getPesanBelumCiCo()||wfhService.getPesanWfhWfoDinas()||(wfhService.getBelumCicoCurrent() == 0 && wfhService.getBelumCicoProp()>0)) {
 			wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
 		}
 		
 		driver.close();
     }
 }
+
+// baru saja clearCiCO 
+//(wfhService.getBelumCicoCurrent() == 0 && wfhService.getBelumCicoProp()>0)
