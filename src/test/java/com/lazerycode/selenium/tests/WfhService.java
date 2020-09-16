@@ -274,13 +274,13 @@ public class WfhService {
 	    	
     	}
     	
-    	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
-    	
     	// overide pesan, jika yg belum CO sudah habis
     	if(!listHistory.contains("Belum "+key)) {
     		isClearCiCo = true;
     		pesanWhatsapp = pesanWhatsapp+getClosingMsg();
     	}
+    	
+    	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
     }
     
     
@@ -309,7 +309,7 @@ public class WfhService {
     }
     
     public String getClosingMsg() {
-    	return	pesanHeader+"Terimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/";
+    	return	"_#PesanOtomatis_\n Terimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/";
     }
     
     public void readProperties() {
