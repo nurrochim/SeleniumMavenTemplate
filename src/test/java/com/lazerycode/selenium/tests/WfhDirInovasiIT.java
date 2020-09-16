@@ -32,6 +32,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
 		// artinya system sudah jalan dan semua sudah CICO 
 		// Jadi ga perlu lagi jalankan service
 		if(wfhService.getSudahCicoProp()>0 && wfhService.getBelumCicoProp()==0) {
+			System.out.println("sebelum return : sudahCiCo > 0 and belumCiCo = 0");
 			return;
 		}
 		

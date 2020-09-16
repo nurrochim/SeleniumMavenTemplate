@@ -1,5 +1,6 @@
 package com.lazerycode.selenium.tests;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,6 +24,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WfhService {
 	public WebDriver driver;
+	String dir = System.getProperty("user.dir");
 	String pesanHeader = "_#PesanOtomatis_\n \nYth. \n";
 	String pesanWhatsapp = "";
 	String findByChatByGroupName = "Test Group Privateku";
@@ -311,7 +313,7 @@ public class WfhService {
     }
     
     public void readProperties() {
-    	try (InputStream input = testcode.class.getClassLoader().getResourceAsStream("config.properties")) {
+    	try (InputStream input = new FileInputStream(dir+"/src/test/resources/config.properties")) {
 
             Properties prop = new Properties();
 
@@ -334,8 +336,6 @@ public class WfhService {
     }
     
     public void writeProperties(Integer sudahCico, Integer belumCico) {
-    	String dir = System.getProperty("user.dir");
-//		System.out.println(dir);
 		try (OutputStream output = new FileOutputStream(dir+"/src/test/resources/config.properties")) {
 
             Properties prop = new Properties();
