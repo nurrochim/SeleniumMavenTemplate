@@ -309,7 +309,8 @@ public class WfhService {
     }
     
     public String getClosingMsg() {
-    	return	"_#PesanOtomatis_\n Terimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/";
+    	return	"_#PesanOtomatis_\n\n Terimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/"
+    			+ "\n\n_Mohon jangan dibalas/diteruskan_";
     }
     
     public void readProperties() {
