@@ -22,29 +22,24 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class WfhService {
+public class WfhCpnsService {
 	public WebDriver driver;
 	String dir = System.getProperty("user.dir");
-	String nameOfProperties = "config.properties";
 	String pesanHeader = "_#PesanOtomatis_\n \nYth. \n";
 	String pesanWhatsapp = "";
 	String findByChatByGroupName = "Test Group Privateku";
 	String[] personsName1 = {"Ir. Santosa Yudo Warsono, MT","Aldi Haryadi, S.T.","Drs. Erwin Sjachrial","Ir Wiwiek Joelijani, MT","Novi Mukti Rahayu, S.T., M.T.","Maryunis, S.E."
-							,"Rino, S.E","Yenni Kusumawati, S.T.","Aditya Randika, S.E.","Raditya Dananjaya, S.Kom.","Agus Prihartono, S.T., M.T","Cornelia Tantri Wijayaingtyas, S KOM","Amir Faisal Manurung, S.Si., M.P.P","Alwis, SE",
-							"Erlani Pusparini, S.T., M.Eng.","Dicky Kurniawan, S.T.","Noor Indriasari, S.E.","Sri Utami, S.Sos","Yulmedianti Karlina Nancy, S.Si","Anteng Setia Ningsih, S.Tp., M.A.",
-							"Ulfi Perdanawati, S.T.","Rahmatika Jihad, S.Sos","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi, ST, MM","Fitri Ramadhani A",
-							"Radiwan, SE","Nurochim","Bambang Herlambang, ST","Iskandar, S.Si","Edi Sumedi, A.Md.","Teddy Adhitya, SH",
-							"Dody Styawan, S.Kom.","Agung Budi Raharjo, S.E","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita" 
+								,"Rino, S.E","Yenni Kusumawati","Aditya Randika","Raditya Dananjaya","Agus Prihartono","Cornelia Tantri W","Amir Faisal Manurung","Alwis",
+								"Erlani Pusparini","Dicky Kurniawan","Noor Indriasari","Sri Utami, S.Sos","Yulmedianti Karlina Nancy","Anteng Setia Ningsih, S.Tp., M.A.",
+								"Ulfi Perdanawati","Rahmatika Jihad","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi","Fitri Ramadhani A",
+								"Radiwan, SE","Nurochim","Bambang Herlambang","Iskandar, S.Si","Edi Sumedi","Teddy Adhitya",
+								"Dody Styawan","Agung Budi Raharjo","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita" 
 	
 	String[] personsName2 = {"Sarah Fairuz", "Ninik Puji Astuti","Yunida Hary Wardany", "Gracia Krisantiana Agustin","Regina Putri", "Oktarina Elik",
 							"Lita Foresti","Mega Fatimah","Shintya Asih Angelita","Uci Sri Sundari",
 							"Nurochim", "Aditya Randika", "Raditya Dananjaya", "Dicky Kurniawan","Andi Azhari Putra","Yusnan Rizky", "Moslem Afrizal",
 							"Widi Fauzi Asari","Darius Ruruk Paembonan", "Dody Apriadi Indrakusuma", "Hanafi Ahmad Subrata Lubis", "Sefryan Daru"
 							};
-	String cicoWfhProp = "";
-	String cicoWfoProp = "";
-	String cicoDinasProp = "";
-	String cicoBelumProp = "";
 	//String key = "Checkin";
 	String key = "Checkout";
 	Map<String, String> mapHistory = new HashMap<>();
@@ -73,82 +68,41 @@ public class WfhService {
     	
     	String jenisKehadiran = "";
     	String wfhWfoDinas = "";
-    	Boolean checkHistory = true;
-    	cicoBelumProp = "";
     	for(String nameKey: personsName) {
-    		checkHistory = true;
     		jenisKehadiran = "";
 	    	wfhWfoDinas = "";
+	    	WebElement findByName = driver.findElement(By.id("nama"));
+	    	findByName.sendKeys(nameKey);
 	    	
-    		// cek apakah nameKey nya belum CiCo?
-    		// jika belum (true) maka lanjutkan cek ke web
-    		// jika sudah (false) maka continue --> tak perlu cek ke web, lanjut ke nameKey berikutnya
-//    		if(!cicoBelumProp.isEmpty() && !cicoBelumProp.contains(nameKey)) {
-//    			continue;
-//    		}
-    		
-    		if(cicoWfoProp.contains(nameKey)) {
-    			wfhWfoDinas = "WFO";
-    		}
-    		if(cicoWfhProp.contains(nameKey)) {
-    			wfhWfoDinas = "WFH";
-    		}
-    		if(cicoDinasProp.contains(nameKey)) {
-    			wfhWfoDinas = "DINAS";
-    		}
-    		if(!wfhWfoDinas.isEmpty()) {
-    			jenisKehadiran = key;
-    			checkHistory = false;
-    		}
-    		
-    		if(checkHistory) {
-    			WebElement findByName = driver.findElement(By.id("nama"));
-		    	findByName.sendKeys(nameKey);
-		    	
-		    	WebElement simpanBtn = driver.findElement(By.id("simpan"));
-		    	simpanBtn.click();
-		    	
-				Thread.sleep(3000);
-		    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table")));
-		    	WebElement tableHistory = driver.findElement(By.id("table"));
-		    	List<WebElement> rows = tableHistory.findElements(By.tagName("tr"));
-		    	
-	//	    	List<String> jenisKehadirans = new ArrayList<>();
-		    	
-		    	for(int i=0; i<rows.size(); i++) {
-		    		//check column each in row, identification with 'td' tag
-		    	    List<WebElement> cols = rows.get(i).findElements(By.tagName("td"));
-		
-		    	    if(cols != null && cols.size()>0) {
-		    	    	jenisKehadiran = cols.get(2).getText();
-	//	    	    	jenisKehadirans.add(jenisKehadiran); // get Jenis Kehadiran
-		    	    	if(jenisKehadiran.equals(key)) {
-		    	    		wfhWfoDinas = cols.get(4).getText();
-		    	    		break;
-		    	    	}
-		    	    }
-		    	    if(jenisKehadiran.equals(key)) {
-		    	    	break;
-		    	    }else {
-		    	    	jenisKehadiran="";
-		    	    }
-				}
-    		
-		    	// set value of Properties
-	    		if(!wfhWfoDinas.isEmpty()) {
-					if(wfhWfoDinas.equalsIgnoreCase("WFO")) {
-						cicoWfoProp = cicoWfoProp+"#"+nameKey+"\n";
-					}else if(wfhWfoDinas.equalsIgnoreCase("WFH")) {
-						cicoWfhProp = cicoWfhProp+"#"+nameKey+"\n";
-					}else {
-						cicoDinasProp = cicoDinasProp+"#"+nameKey+"\n";
-					}
-				}else {
-					cicoBelumProp = cicoBelumProp+"#"+nameKey+"\n";
-				}
+	    	WebElement simpanBtn = driver.findElement(By.id("simpan"));
+	    	simpanBtn.click();
 	    	
-    		}
-    		
+			Thread.sleep(3000);
+	    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table")));
+	    	WebElement tableHistory = driver.findElement(By.id("table"));
+	    	List<WebElement> rows = tableHistory.findElements(By.tagName("tr"));
+	    	
+//	    	List<String> jenisKehadirans = new ArrayList<>();
+	    	
+	    	for(int i=0; i<rows.size(); i++) {
+	    		//check column each in row, identification with 'td' tag
+	    	    List<WebElement> cols = rows.get(i).findElements(By.tagName("td"));
+	
+	    	    if(cols != null && cols.size()>0) {
+	    	    	jenisKehadiran = cols.get(2).getText();
+//	    	    	jenisKehadirans.add(jenisKehadiran); // get Jenis Kehadiran
+	    	    	if(jenisKehadiran.equals(key)) {
+	    	    		wfhWfoDinas = cols.get(4).getText();
+	    	    		break;
+	    	    	}
+	    	    }
+	    	    if(jenisKehadiran.equals(key)) {
+	    	    	break;
+	    	    }else {
+	    	    	jenisKehadiran="";
+	    	    }
+			}
+	    	
 	    	if(!jenisKehadiran.isEmpty()) {
 //	    		System.out.println(nameKey+" "+wfhWfoDinas+" sudah "+key);
 	    		// masukkan ke map
@@ -171,6 +125,12 @@ public class WfhService {
 	    	}
 			
     	}
+    	//driver.quit();
+    	List<String> listHistory = new ArrayList<String>(mapHistory.keySet());
+    	
+//    	for (String mapKey : listHistory) {
+//    		System.out.println(mapKey);
+//    	}
     }
     
     
@@ -195,7 +155,7 @@ public class WfhService {
     public void remoteWhatsapp() throws Exception{
     	// open whatsapp
     	driver.get("https://web.whatsapp.com/");
-    	Thread.sleep(50000);
+    	Thread.sleep(10000);
     	
     	// find side panel chat
     	WebDriverWait wait = new WebDriverWait(driver, 15);
@@ -258,13 +218,14 @@ public class WfhService {
 	    sendMsgSucces = true;
     }
     
-    public void addNumberToMapHistory() {
-    	// add number
+    public void pesanWhatsappCompile () {
+    	pesanWhatsapp = "";
     	List<String> listHistory = new ArrayList<String>(mapHistory.keySet());
+    	
+    	// add number
     	for (String mapKey : listHistory) {
-    		String personsOnMap = mapHistory.get(mapKey);
-    		
-    		String personsArray[] = personsOnMap.split("#");
+    		String persons = mapHistory.get(mapKey);
+    		String personsArray[] = persons.split("#");
     		String personsWithNumber = "";
     		int number = 1;
     		for (int i = 1; i < personsArray.length; i++) {
@@ -279,44 +240,33 @@ public class WfhService {
     		}
     	}
     	
-    	// sampaikan semua data lengkap yang SUDAH CICO untuk terakhir kali 
-    	if(!listHistory.contains("Belum "+key) && (belumCicoCurrent == 0 && belumCicoProp>0)) {
-    		pesanWfhWfoDinas = true;
-    	}
-    }
-    
-    public void pesanWhatsappCompile () {
-    	pesanWhatsapp = "";
-    	List<String> listHistory = new ArrayList<String>(mapHistory.keySet());
-    	
+
     	if(pesanWfhWfoDinas) {
 	    	for (String mapKey : listHistory) {
 //	    		System.out.println(mapKey);
 	    		if(!mapKey.equals("Belum "+key)) {
 	    	    	if(pesanWhatsapp.isEmpty()) {
 	    	    		// header
-	    	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
+	    	    		pesanWhatsapp = pesanHeader+"Teman-teman yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    	    	}
 	    	    	pesanWhatsapp = pesanWhatsapp+"*"+mapKey+"* \n"+mapHistory.get(mapKey)+" \n";
 	    	    }
 	    	}
     	
 	    	if(pesanWhatsapp.isEmpty()) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)";
+	    		pesanWhatsapp = pesanHeader+"Teman-teman yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)";
 	    	}
 	    	if(!pesanWhatsapp.isEmpty()) {
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
-											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih"+Keys.chord(Keys.ENTER);
+				pesanWhatsapp = pesanWhatsapp+"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih"+Keys.chord(Keys.ENTER);
 			}
     	}
     	
     	if(pesanBelumCiCo) {
 	    	if(listHistory.contains("Belum "+key)) {
-	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
+	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Teman-teman yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
-											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
+				pesanWhatsapp = pesanWhatsapp+"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
 			}
 	    	
 	    	
@@ -325,7 +275,6 @@ public class WfhService {
     	// overide pesan, jika yg belum CO sudah habis
     	if(!listHistory.contains("Belum "+key)) {
     		isClearCiCo = true;
-    		cicoBelumProp ="";
     		pesanWhatsapp = pesanWhatsapp+getClosingMsg();
     	}
     	
@@ -358,12 +307,12 @@ public class WfhService {
     }
     
     public String getClosingMsg() {
-    	return	"_#PesanOtomatis_\n\nTerimakasih Bapak/Ibu, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/"
+    	return	"_#PesanOtomatis_\n\n Terimakasih teman-teman, Alhamdulillah semuanya *Sudah "+key+"* pada hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/"
     			+ "\n\n_Mohon jangan dibalas/diteruskan_";
     }
     
     public void readProperties() {
-    	try (InputStream input = new FileInputStream(dir+"/src/test/resources/"+nameOfProperties)) {
+    	try (InputStream input = new FileInputStream(dir+"/src/test/resources/config.properties")) {
 
             Properties prop = new Properties();
 
@@ -378,30 +327,22 @@ public class WfhService {
             //get the property value and print it out
             sudahCicoProp = Integer.valueOf(prop.getProperty("cico.sudah"));
             belumCicoProp = Integer.valueOf(prop.getProperty("cico.belum"));
-//            Integer clearCiCoProp =
-            cicoWfhProp = prop.getProperty("cico.wfh");
-            cicoWfoProp = prop.getProperty("cico.wfo");
-            cicoDinasProp = prop.getProperty("cico.dinas");
-            cicoBelumProp = prop.getProperty("cico.belumPersons");
+//            Integer clearCiCoProp = 
             
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    public void writeProperties() {
-		try (OutputStream output = new FileOutputStream(dir+"/src/test/resources/"+nameOfProperties)) {
+    public void writeProperties(Integer sudahCico, Integer belumCico) {
+		try (OutputStream output = new FileOutputStream(dir+"/src/test/resources/config.properties")) {
 
             Properties prop = new Properties();
 
             // set the properties value
-            prop.setProperty("cico.sudah", sudahCicoCurrent.toString());
-            prop.setProperty("cico.belum", belumCicoCurrent.toString());
+            prop.setProperty("cico.sudah", sudahCico.toString());
+            prop.setProperty("cico.belum", belumCico.toString());
             prop.setProperty("cico.clear", "0");
-            prop.setProperty("cico.wfh", cicoWfhProp);
-            prop.setProperty("cico.wfo", cicoWfoProp);
-            prop.setProperty("cico.dinas", cicoDinasProp);
-            prop.setProperty("cico.belumPersons", cicoBelumProp);
 
             // save properties to project root folder
             prop.store(output, null);
@@ -414,7 +355,9 @@ public class WfhService {
     public void setInitProperties(int currentHour, int currentMinute, int currentDay) {
     	// Jam Pagi
     	if (currentHour == 6 && currentMinute < 20) {
-    		setInitValueProperties();
+    		sudahCicoProp = 0;
+    		belumCicoProp = 0;
+    		writeProperties(0,0);
     	}
     	
     	// Settingan sore 
@@ -422,33 +365,18 @@ public class WfhService {
     		// untuk hari sebelum jumat (6)
     		if (currentHour == 15) {
     			// Jumat sore
-    			setInitValueProperties();
+    			sudahCicoProp = 0;
+        		belumCicoProp = 0;
+        		writeProperties(0,0);
         	}
     	}else {
     		// untuk hari jumat
     		if (currentHour == 16 && currentMinute < 15) {
-    			setInitValueProperties();
+    			sudahCicoProp = 0;
+        		belumCicoProp = 0;
+        		writeProperties(0,0);
         	}
     	}
-    }
-    
-    public void setInitPropertiesCpns(int currentHour) {
-    	if (currentHour == 7 || currentHour == 19) {
-    		setInitValueProperties();
-    	}
-    }
-    
-    public void setInitValueProperties() {
-    	sudahCicoProp = 0;
-		belumCicoProp = 0;
-		cicoWfhProp = "";
-		cicoWfoProp = "";
-		cicoDinasProp = "";
-		cicoBelumProp = "";
-		sudahCicoCurrent = 0;
-		belumCicoCurrent = 0;
-				
-		writeProperties();
     }
 
 	public WebDriver getDriver() {
@@ -570,18 +498,5 @@ public class WfhService {
 	public void setSudahCicoCurrent(Integer sudahCicoCurrent) {
 		this.sudahCicoCurrent = sudahCicoCurrent;
 	}
-
-	public String getNameOfProperties() {
-		return nameOfProperties;
-	}
-
-	public void setNameOfProperties(String nameOfProperties) {
-		this.nameOfProperties = nameOfProperties;
-	}
-
-	
-
-	
-    
     
 }

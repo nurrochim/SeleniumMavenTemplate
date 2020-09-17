@@ -21,10 +21,11 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	WfhService wfhService = new WfhService();
     	
     	System.out.println("Jam running "+cal.getTime()+"  "+ currentHour);
-    	wfhService.setInitProperties(currentHour, currentMinute, currentDay);
-    	
     	// readProperties
+    	wfhService.setNameOfProperties("config.properties");
     	wfhService.readProperties();
+		wfhService.setInitProperties(currentHour, currentMinute, currentDay);
+    	
     	System.out.println("Sudah CO Properties = " +wfhService.getSudahCicoProp());
 		System.out.println("Belum CO Properties = " + wfhService.getBelumCicoProp());
     	
@@ -43,7 +44,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     		wfhService.setKey("Checkout");
     	}
 		
-    	if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
+    	if ((currentHour > 7 && currentHour < 12) || (currentHour > 19)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
     		wfhService.setPesanWfhWfoDinas(false);
     		wfhService.setPesanBelumCiCo(true);
@@ -57,11 +58,12 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	WebDriver driver = getDriver();
     	wfhService.setDriver(driver);
     	wfhService.wfhHistory(wfhService.getPersonsName1());
+    	wfhService.addNumberToMapHistory();
 		wfhService.pesanWhatsappCompile();
 		
-		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group
+		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group (belum CiCo nya yg disampaikan)
 		// jika tidak ada update cico, ya ga usah disampaikan ke group
- 		if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
+ 		if ((currentHour > 7 && currentHour < 12) || (currentHour > 19)) {
 			if(wfhService.getBelumCicoCurrent() > 0 // selama masih ada yang belum CO maka tampilkan Belum CO nya 
 					&& wfhService.getBelumCicoCurrent() < wfhService.getBelumCicoProp()) // dan currentnya telah menurun atau < dari CicoProp 
 			{
@@ -74,7 +76,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
 		// save to properties
 		System.out.println("Sudah CO Actual = " +wfhService.getSudahCicoCurrent());
 		System.out.println("Belum CO Actual = " + wfhService.getBelumCicoCurrent());
-		wfhService.writeProperties(wfhService.getSudahCicoCurrent(),wfhService.getBelumCicoCurrent());
+		wfhService.writeProperties();
 		
 		// send wea
 		wfhService.setFindByChatByGroupName("Inovasi Industri");

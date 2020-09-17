@@ -12,9 +12,15 @@ public class WfhCpnsIT extends DriverBase2 {
     public void runRemote() throws Exception{
 		Calendar cal = Calendar.getInstance();
     	int currentHour = cal.get(Calendar.HOUR_OF_DAY);
-    	
-		WebDriver driver = getDriver();
+    	WebDriver driver = getDriver();
     	WfhService wfhService = new WfhService();
+    	
+    	// readProperties
+    	wfhService.setNameOfProperties("config.cpns.properties");
+    	wfhService.readProperties();
+		wfhService.setInitPropertiesCpns(currentHour);
+    	
+		
     	wfhService.setDriver(driver);
 //    	wfhService.setPesanDisclaimer(false);
     	if (currentHour > 20 || (currentHour > 8 && currentHour < 12)) {
@@ -32,7 +38,9 @@ public class WfhCpnsIT extends DriverBase2 {
 //    	wfhService.setKey("Checkout");// test only
     	
     	wfhService.wfhHistory(wfhService.getPersonsName2());
+    	wfhService.addNumberToMapHistory();
     	wfhService.pesanWhatsappCompile();
+    	wfhService.writeProperties();
     	if(!wfhService.getIsClearCiCo()) {
     		wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
     	}
