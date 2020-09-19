@@ -280,9 +280,10 @@ public class WfhService {
     	}
     	
     	// sampaikan semua data lengkap yang SUDAH CICO untuk terakhir kali 
-    	if(!listHistory.contains("Belum "+key) && (belumCicoCurrent == 0 && belumCicoProp>0)) {
-    		pesanWfhWfoDinas = true;
-    	}
+    	// 20 Sept 2020 --> baris code ini tidak perlu lagi.
+//    	if(!listHistory.contains("Belum "+key) && (belumCicoCurrent == 0 && belumCicoProp>0)) {
+//    		pesanWfhWfoDinas = true;
+//    	}
     }
     
     public void pesanWhatsappCompile () {
@@ -326,7 +327,7 @@ public class WfhService {
     	if(!listHistory.contains("Belum "+key)) {
     		isClearCiCo = true;
     		cicoBelumProp ="";
-    		pesanWhatsapp = pesanWhatsapp+getClosingMsg();
+//    		pesanWhatsapp = pesanWhatsapp+getClosingMsg();
     	}
     	
     	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
@@ -413,7 +414,7 @@ public class WfhService {
     
     public void setInitProperties(int currentHour, int currentMinute, int currentDay) {
     	// Jam Pagi
-    	if (currentHour == 6 && currentMinute < 20) {
+    	if (currentHour == 6 && currentMinute < 40) {
     		setInitValueProperties();
     	}
     	
@@ -426,14 +427,14 @@ public class WfhService {
         	}
     	}else {
     		// untuk hari jumat
-    		if (currentHour == 16 && currentMinute < 15) {
+    		if (currentHour == 16 && currentMinute < 45) {
     			setInitValueProperties();
         	}
     	}
     }
     
     public void setInitPropertiesCpns(int currentHour) {
-    	if (currentHour == 7 || currentHour == 19) {
+    	if (currentHour == 7 || currentHour == 20) {
     		setInitValueProperties();
     	}
     }
