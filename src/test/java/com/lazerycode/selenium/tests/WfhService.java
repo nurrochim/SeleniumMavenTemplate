@@ -306,8 +306,8 @@ public class WfhService {
 	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)";
 	    	}
 	    	if(!pesanWhatsapp.isEmpty()) {
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
-											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih"+Keys.chord(Keys.ENTER);
+	    		pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ jika ada kesalahan data, "
+						 					 +"data terupdate ada di https://wfh.ristekbrin.go.id/dashboard/history \n\nTerimakasih"+Keys.chord(Keys.ENTER);
 			}
     	}
     	
@@ -316,8 +316,8 @@ public class WfhService {
 	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
-				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ ini masih belum sempurna, mohon dimaklumi jika masih ada kesalahan/error. "
-											 +"Data terupdate ada di halaman https://wfh.ristekbrin.go.id/dashboard/history \n\n_Mohon jangan dibalas/diteruskan_\nTerimakasih";
+				pesanWhatsapp = pesanWhatsapp+"\n_#PesanOtomatis_ jika ada kesalahan data, "
+											 +"data terupdate ada di https://wfh.ristekbrin.go.id/dashboard/history \n\nTerimakasih";
 			}
 	    	
 	    	
