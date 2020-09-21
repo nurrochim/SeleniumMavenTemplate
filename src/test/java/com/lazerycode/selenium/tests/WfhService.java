@@ -281,9 +281,9 @@ public class WfhService {
     	
     	// sampaikan semua data lengkap yang SUDAH CICO untuk terakhir kali 
     	// 20 Sept 2020 --> baris code ini tidak perlu lagi.
-//    	if(!listHistory.contains("Belum "+key) && (belumCicoCurrent == 0 && belumCicoProp>0)) {
-//    		pesanWfhWfoDinas = true;
-//    	}
+    	if(!listHistory.contains("Belum "+key) && (belumCicoCurrent == 0 && belumCicoProp>0)) {
+    		pesanWfhWfoDinas = true;
+    	}
     }
     
     public void pesanWhatsappCompile () {
@@ -315,7 +315,7 @@ public class WfhService {
 	    		pesanWhatsapp = pesanWhatsapp+pesanHeader+"Bapak/Ibu yang *Belum "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n";
 	    		pesanWhatsapp = pesanWhatsapp+mapHistory.get("Belum "+key)+" \n";
 	//    		pesanWhatsapp = pesanWhatsapp+"_Catatan :_ \nYang *Belum "+key+"* bisa jadi mungkin Ybs sedang izin/cuti \n\n_Mohon jangan dibalas/diteruskan_";
-				pesanWhatsapp = pesanWhatsapp+"Data terupdate kunjungi halaman di https://wfh.ristekbrin.go.id/dashboard/history \n\nTerimakasih";
+				pesanWhatsapp = pesanWhatsapp+"Data terupdate kunjungi halaman https://wfh.ristekbrin.go.id/dashboard/history \n\nTerimakasih";
 			}
 	    	
 	    	
