@@ -74,15 +74,20 @@ public class WfhDirInovasiIT extends DriverBase2 {
 		}
 		
 		// save to properties
-		System.out.println("Sudah CO Actual = " +wfhService.getSudahCicoCurrent());
-		System.out.println("Belum CO Actual = " + wfhService.getBelumCicoCurrent());
+		System.out.println("Sudah CiCo Actual = " +wfhService.getSudahCicoCurrent());
+		System.out.println("Belum CiCo Actual = " + wfhService.getBelumCicoCurrent());
+		System.out.println("Pesan WfhWfoDinas = " + wfhService.getPesanWfhWfoDinas());
+		System.out.println("Pesan Belum CiCo = " + wfhService.getPesanBelumCiCo());
 		wfhService.writeProperties();
 		
 		// send wea
+		System.out.println("Init Remote Whatsapp : ");
 		wfhService.setFindByChatByGroupName("Inovasi Industri");
 		if(wfhService.getPesanBelumCiCo()||wfhService.getPesanWfhWfoDinas()||(wfhService.getBelumCicoCurrent() == 0 && wfhService.getBelumCicoProp()>0)) {
+			System.out.println("Start Remote Whatsapp");
 			wfhService.wfhHistorySendToWhatsapp(wfhService.getFindByChatByGroupName());
 		}
+		System.out.println("End Remote Whatsapp");
 		
 		driver.close();
     }
