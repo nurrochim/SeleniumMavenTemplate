@@ -44,7 +44,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     		wfhService.setKey("Checkout");
     	}
 		
-    	if ((currentHour > 7 && currentHour < 12) || (currentHour > 19)) {
+    	if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
     		wfhService.setPesanWfhWfoDinas(false);
     		wfhService.setPesanBelumCiCo(true);
@@ -63,7 +63,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
 		
 		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group (belum CiCo nya yg disampaikan)
 		// jika tidak ada update cico, ya ga usah disampaikan ke group
- 		if ((currentHour > 7 && currentHour < 12) || (currentHour > 19)) {
+ 		if ((currentHour > 8 && currentHour < 12) || (currentHour > 19)) {
 			if(wfhService.getBelumCicoCurrent() > 0 // selama masih ada yang belum CO maka tampilkan Belum CO nya 
 					&& wfhService.getBelumCicoCurrent() < wfhService.getBelumCicoProp()) // dan currentnya telah menurun atau < dari CicoProp 
 			{
