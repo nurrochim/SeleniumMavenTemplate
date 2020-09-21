@@ -195,7 +195,7 @@ public class WfhService {
     public void remoteWhatsapp() throws Exception{
     	// open whatsapp
     	driver.get("https://web.whatsapp.com/");
-    	Thread.sleep(50000);
+    	Thread.sleep(10000);
     	
     	// find side panel chat
     	WebDriverWait wait = new WebDriverWait(driver, 15);
