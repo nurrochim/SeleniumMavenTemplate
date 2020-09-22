@@ -303,7 +303,7 @@ public class WfhService {
 	    	}
     	
 	    	if(pesanWhatsapp.isEmpty()) {
-	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)";
+	    		pesanWhatsapp = pesanHeader+"Bapak/Ibu yang *Sudah "+key+"* hari ini, "+dateFormat.format(dateNow)+" melalui halaman https://wfh.ristekbrin.go.id/ \n \n(Belum ada data)\n\n";
 	    	}
 	    	if(!pesanWhatsapp.isEmpty()) {
 	    		pesanWhatsapp = pesanWhatsapp+"Data terupdate kunjungi halaman https://wfh.ristekbrin.go.id/dashboard/history \n\nTerimakasih"+Keys.chord(Keys.ENTER);
