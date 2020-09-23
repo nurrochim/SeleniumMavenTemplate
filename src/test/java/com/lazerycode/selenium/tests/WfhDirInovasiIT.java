@@ -44,7 +44,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     		wfhService.setKey("Checkout");
     	}
 		
-    	if ((currentHour > 7 && currentHour < 12) || (currentHour > 19)) {
+    	if ((currentHour > 7 && currentHour < 12) || (currentHour > 21)) {
     		// HANYA PESAN YANG BELUM CICO SAJA, YANG SUDAH CICO GA USAH TAMPIL
     		wfhService.setPesanWfhWfoDinas(false);
     		wfhService.setPesanBelumCiCo(true);
