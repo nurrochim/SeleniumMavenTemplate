@@ -59,7 +59,7 @@ public class WfhDirInovasiIT extends DriverBase2 {
     	wfhService.setDriver(driver);
     	wfhService.wfhHistory(wfhService.getPersonsName1());
     	wfhService.addNumberToMapHistory();
-		wfhService.pesanWhatsappCompile();
+		
 		
 		// di jam-jam terakhir, jika ada update sudah cico sampaikan ke group (belum CiCo nya yg disampaikan)
 		// jika tidak ada update cico, ya ga usah disampaikan ke group
@@ -73,6 +73,8 @@ public class WfhDirInovasiIT extends DriverBase2 {
 			}
 		}
 		
+ 		
+ 		wfhService.pesanWhatsappCompile();
 		// save to properties
 		System.out.println("Sudah CiCo Actual = " +wfhService.getSudahCicoCurrent());
 		System.out.println("Belum CiCo Actual = " + wfhService.getBelumCicoCurrent());
