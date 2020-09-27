@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -22,8 +24,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class WfhService {
+public class WfhService2 {
 	public WebDriver driver;
+	public Logger logger = null;
 	String dir = System.getProperty("user.dir");
 	String nameOfProperties = "config.properties";
 	String pesanHeader = "_#PesanOtomatis_\n \nYth. \n";
@@ -34,7 +37,7 @@ public class WfhService {
 							"Erlani Pusparini, S.T., M.Eng.","Dicky Kurniawan, S.T.","Noor Indriasari, S.E.","Sri Utami, S.Sos","Yulmedianti Karlina Nancy, S.Si","Anteng Setia Ningsih, S.Tp., M.A.",
 							"Ulfi Perdanawati, S.T.","Rahmatika Jihad, S.Sos","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi, ST, MM","Fitri Ramadhani A",
 							"Radiwan, SE","Nurochim","Bambang Herlambang, ST","Iskandar, S.Si","Nila Juwita,M.T","Edi Sumedi, A.Md.","Teddy Adhitya, SH",
-							"Dody Styawan, S.Kom.","Agung Budi Raharjo, S.E","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita" 
+							"Dody Styawan, S.Kom.","Agung Budi Raharjo, S.E","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita,M.T" 
 	
 	String[] personsName2 = {"Sarah Fairuz", "Ninik Puji Astuti","Yunida Hary Wardany", "Gracia Krisantiana Agustin","Regina Putri", "Oktarina Elik",
 							"Lita Foresti","Mega Fatimah","Shintya Asih Angelita","Uci Sri Sundari",
@@ -59,12 +62,15 @@ public class WfhService {
 	Integer sudahCicoProp = 0;
 	Integer belumCicoCurrent = 0;
 	Integer sudahCicoCurrent = 0;
+	Boolean savePoint1 = false;
+	Boolean savePoint2 = false;
+	Boolean savePoint3 = false;
+	Boolean cicoService = false;
+	Integer cicoServiceRetry = 0;
+	Integer cicoMaxPersons = 38;
+	Integer totalSavePoint3 = 0;
+	
 		
-    private ExpectedCondition<Boolean> pageTitleStartsWith(final String searchString) {
-        return driver -> driver.getTitle().toLowerCase().startsWith(searchString.toLowerCase());
-    }
-
-//    @Test
     public void wfhHistory(String[] personsName) throws Exception {
     	WebDriverWait wait = new WebDriverWait(driver, 5);
     	driver.get("https://wfh.ristekbrin.go.id/dashboard/history");
@@ -108,7 +114,7 @@ public class WfhService {
 		    	WebElement simpanBtn = driver.findElement(By.id("simpan"));
 		    	simpanBtn.click();
 		    	
-				Thread.sleep(3000);
+				Thread.sleep(2000);
 		    	wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("table")));
 		    	WebElement tableHistory = driver.findElement(By.id("table"));
 		    	List<WebElement> rows = tableHistory.findElements(By.tagName("tr"));
@@ -160,7 +166,8 @@ public class WfhService {
 	    			mapHistory.put(wfhWfoDinas, "#"+nameKey+"\n");
 	    		}
 	    	}else {
-	    		System.out.println(nameKey+" "+wfhWfoDinas+" belum "+key);
+//	    		System.out.println(nameKey+" "+wfhWfoDinas+" belum "+key);
+//	    		logger.log(Level.INFO, nameKey+" "+wfhWfoDinas+" belum "+key);
 	    		if(mapHistory.containsKey("Belum "+key)) {
 	    			String personsNameOnMap = mapHistory.get("Belum "+key);
 	    			personsNameOnMap = personsNameOnMap+"#"+nameKey+"\n";
@@ -180,7 +187,8 @@ public class WfhService {
     	int maxTries = 3;
     	while(true) {
     	    try {
-    	    	System.out.println(count+" try to remote whatsapp");
+    	    	logger.log(Level.INFO, count+" try to remote whatsapp");
+//    	    	System.out.println(count+" try to remote whatsapp");
     	        remoteWhatsapp();
     	        if(sendMsgSucces) {
     	        	break;
@@ -208,7 +216,8 @@ public class WfhService {
     	String title = "";
     	while(true) {
     	    try {
-    	    	System.out.println("     "+count+" try search chat ");
+    	    	logger.log(Level.INFO, "     "+count+" try search chat ");
+//    	    	System.out.println("     "+count+" try search chat ");
     	    	title = "";
     	    	WebElement search = driver.findElement(By.xpath("//*[@id=\"side\"]/div[1]/div/label/div/div[2]"));
     	    	search.clear();
@@ -329,6 +338,7 @@ public class WfhService {
     	}
     	
     	pesanWhatsapp = pesanWhatsapp.replace("\n", Keys.chord(Keys.SHIFT, Keys.ENTER));
+    	logger.log(Level.INFO, pesanWhatsapp);
     }
     
     
@@ -362,12 +372,17 @@ public class WfhService {
     }
     
     public void readProperties() {
+    	if(logger == null) {
+    		logger = Logger.getLogger(WfhService2.class.getName());
+    	}
+    	
     	try (InputStream input = new FileInputStream(dir+"/src/test/resources/"+nameOfProperties)) {
 
             Properties prop = new Properties();
 
             if (input == null) {
-                System.out.println("Sorry, unable to find config.properties");
+                //System.out.println("Sorry, unable to find config.properties");
+                logger.log(Level.SEVERE, "Sorry, unable to find config.properties");
                 return;
             }
 
@@ -382,6 +397,14 @@ public class WfhService {
             cicoWfoProp = prop.getProperty("cico.wfo");
             cicoDinasProp = prop.getProperty("cico.dinas");
             cicoBelumProp = prop.getProperty("cico.belumPersons");
+            savePoint1 = Boolean.valueOf(prop.getProperty("cico.savePoint1"));
+            savePoint2 = Boolean.valueOf(prop.getProperty("cico.savePoint2"));
+            savePoint3 = Boolean.valueOf(prop.getProperty("cico.savePoint3"));
+            cicoService = Boolean.valueOf(prop.getProperty("cico.service"));
+            
+            cicoServiceRetry = Integer.valueOf(prop.getProperty("cico.service.retry"));
+            //cicoMaxPersons = Integer.valueOf(prop.getProperty("cico.maxpersons"));
+            totalSavePoint3 = Integer.valueOf(prop.getProperty("cico.savePoint3.totalcico"));
             
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -401,6 +424,13 @@ public class WfhService {
             prop.setProperty("cico.wfo", cicoWfoProp);
             prop.setProperty("cico.dinas", cicoDinasProp);
             prop.setProperty("cico.belumPersons", cicoBelumProp);
+            prop.setProperty("cico.savePoint1", savePoint1.toString());
+            prop.setProperty("cico.savePoint2", savePoint2.toString());
+            prop.setProperty("cico.savePoint3", savePoint3.toString());
+            prop.setProperty("cico.service", cicoService.toString());
+            prop.setProperty("cico.service.retry", cicoServiceRetry.toString());
+            prop.setProperty("cico.savePoint3.totalcico", totalSavePoint3.toString());
+            
 
             // save properties to project root folder
             prop.store(output, null);
@@ -412,7 +442,7 @@ public class WfhService {
     
     public void setInitProperties(int currentHour, int currentMinute, int currentDay) {
     	// Jam Pagi
-    	if (currentHour == 6) {
+    	if (currentHour == 6 && currentMinute < 40) {
     		setInitValueProperties();
     	}
     	
@@ -425,7 +455,7 @@ public class WfhService {
         	}
     	}else {
     		// untuk hari jumat
-    		if (currentHour == 16 && currentMinute < 45) {
+    		if (currentHour == 16 && currentMinute < 30) {
     			setInitValueProperties();
         	}
     	}
@@ -446,6 +476,12 @@ public class WfhService {
 		cicoBelumProp = "";
 		sudahCicoCurrent = 0;
 		belumCicoCurrent = 0;
+		savePoint1 = false;
+		savePoint2 = false;
+		savePoint3 = false;
+		cicoService = true;
+		cicoServiceRetry = 0;
+		totalSavePoint3 = 0;
 				
 		writeProperties();
     }
@@ -578,9 +614,70 @@ public class WfhService {
 		this.nameOfProperties = nameOfProperties;
 	}
 
-	
+	public Boolean getSavePoint1() {
+		return savePoint1;
+	}
 
+	public void setSavePoint1(Boolean savePoint1) {
+		this.savePoint1 = savePoint1;
+	}
+
+	public Boolean getSavePoint2() {
+		return savePoint2;
+	}
+
+	public void setSavePoint2(Boolean savePoint2) {
+		this.savePoint2 = savePoint2;
+	}
+
+	public Boolean getSavePoint3() {
+		return savePoint3;
+	}
+
+	public void setSavePoint3(Boolean savePoint3) {
+		this.savePoint3 = savePoint3;
+	}
+
+	public Boolean getCicoService() {
+		return cicoService;
+	}
+
+	public void setCicoService(Boolean cicoService) {
+		this.cicoService = cicoService;
+	}
+
+	public Integer getCicoServiceRetry() {
+		return cicoServiceRetry;
+	}
+
+	public void setCicoServiceRetry(Integer cicoServiceRetry) {
+		this.cicoServiceRetry = cicoServiceRetry;
+	}
+
+	public Integer getCicoMaxPersons() {
+		return cicoMaxPersons;
+	}
+
+	public void setCicoMaxPersons(Integer cicoMaxPersons) {
+		this.cicoMaxPersons = cicoMaxPersons;
+	}
+
+	public Integer getTotalSavePoint3() {
+		return totalSavePoint3;
+	}
+
+	public void setTotalSavePoint3(Integer totalSavePoint3) {
+		this.totalSavePoint3 = totalSavePoint3;
+	}
+
+	public Logger getLogger() {
+		return logger;
+	}
+
+	public void setLogger(Logger logger) {
+		this.logger = logger;
+	}
 	
-    
-    
+	
+	
 }
