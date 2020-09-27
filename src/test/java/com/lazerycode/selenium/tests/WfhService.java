@@ -33,7 +33,7 @@ public class WfhService {
 							,"Rino, S.E","Yenni Kusumawati, S.T.","Aditya Randika, S.E.","Raditya Dananjaya, S.Kom.","Agus Prihartono, S.T., M.T","Cornelia Tantri Wijayaingtyas, S KOM","Amir Faisal Manurung, S.Si., M.P.P","Alwis, SE",
 							"Erlani Pusparini, S.T., M.Eng.","Dicky Kurniawan, S.T.","Noor Indriasari, S.E.","Sri Utami, S.Sos","Yulmedianti Karlina Nancy, S.Si","Anteng Setia Ningsih, S.Tp., M.A.",
 							"Ulfi Perdanawati, S.T.","Rahmatika Jihad, S.Sos","Ahmad, ST., M.T. Ph.D","Jimmy Akhmadi, ST, MM","Fitri Ramadhani A",
-							"Radiwan, SE","Nurochim","Bambang Herlambang, ST","Iskandar, S.Si","Nila Juwita,M.T","Edi Sumedi, A.Md.","Teddy Adhitya, SH",
+							"Radiwan, SE","Nurochim","Bambang Herlambang, ST","Iskandar, S.Si","Nila Juwita, M.T","Edi Sumedi, A.Md.","Teddy Adhitya, SH",
 							"Dody Styawan, S.Kom.","Agung Budi Raharjo, S.E","Febrianto","Aji Siswo Utomo","Syifa Khoiriyah","Karmo","Muhammad Mustakim"};//,"Nila Juwita" 
 	
 	String[] personsName2 = {"Sarah Fairuz", "Ninik Puji Astuti","Yunida Hary Wardany", "Gracia Krisantiana Agustin","Regina Putri", "Oktarina Elik",
